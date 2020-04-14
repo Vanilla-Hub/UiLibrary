@@ -546,7 +546,7 @@ function library:CreateMain(text)
             Slider.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
             Slider.BackgroundTransparency = 1.000
             Slider.Position = UDim2.new(0.0293296091, 0, 0.169902906, 0)
-            Slider.Size = UDim2.new(0, 337, 0, 50)
+            Slider.Size = UDim2.new(0, 0, 0, 50)
             Slider.Image = "rbxassetid://3570695787"
             Slider.ImageColor3 = Color3.fromRGB(10, 10, 10)
             Slider.ScaleType = Enum.ScaleType.Slice
@@ -591,6 +591,7 @@ function library:CreateMain(text)
             TextBox.TextColor3 = Color3.fromRGB(255, 255, 255)
             TextBox.TextSize = 14.000
             TextBox.TextWrapped = true
+	    TextBox.Text = "0"
             TextBox.FocusLost:Connect(function()
                 pcall(function()
                     TextBox.Text = math.clamp(tonumber(TextBox.Text), minvalue, maxvalue)
