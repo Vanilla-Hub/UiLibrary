@@ -618,14 +618,3 @@ function library:CreateMain(text)
     return shitty;
 end
 return library
-
-local main = library:CreateMain("Vanilla Hub")
-
-local sex = main:Section("Player Cheats")
-sex:NewToggle("hiii", function(state)
- 	 print(state)
-end)
-sex:NewSlider("hii")
-
-local sex2 = main:Section("Misc")
-sex2:NewSlider("hii")
