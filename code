@@ -546,7 +546,7 @@ function library:CreateMain(text)
             Slider.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
             Slider.BackgroundTransparency = 1.000
             Slider.Position = UDim2.new(0.0293296091, 0, 0.169902906, 0)
-            Slider.Size = UDim2.new(0, 0, 0, 50)
+            Slider.Size = UDim2.new(0, 337, 0, 50)
             Slider.Image = "rbxassetid://3570695787"
             Slider.ImageColor3 = Color3.fromRGB(10, 10, 10)
             Slider.ScaleType = Enum.ScaleType.Slice
@@ -579,7 +579,7 @@ function library:CreateMain(text)
             Frame.BackgroundColor3 = Color3.fromRGB(255, 62, 62)
             Frame.BorderSizePixel = 0
             Frame.Position = UDim2.new(0.0122156702, 0, 0.13636364, 0)
-            Frame.Size = UDim2.new(0, 318, 0, 16)
+            Frame.Size = UDim2.new(0, 0, 0, 16)
             
             TextBox.Parent = Slider
             TextBox.BackgroundColor3 = Color3.fromRGB(15, 15, 15)
