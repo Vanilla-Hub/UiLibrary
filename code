@@ -395,6 +395,32 @@ function library:CreateMain(text)
             end)
         end
 
+        function section:NewLabel(text)
+            local Label = Instance.new("ImageLabel")
+            local TextLabel = Instance.new("TextLabel")
+
+            Label.Name = "Label"
+            Label.Parent = TabInner
+            Label.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+            Label.BackgroundTransparency = 1.000
+            Label.Position = UDim2.new(0.00837988779, 0, 0.731601715, 0)
+            Label.Size = UDim2.new(0, 337, 0, 30)
+            Label.Image = "rbxassetid://3570695787"
+            Label.ImageColor3 = Color3.fromRGB(10, 10, 10)
+            Label.ScaleType = Enum.ScaleType.Slice
+            Label.SliceCenter = Rect.new(100, 100, 100, 100)
+            Label.SliceScale = 0.030
+
+            TextLabel.Parent = Label
+            TextLabel.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+            TextLabel.BackgroundTransparency = 1.000
+            TextLabel.Size = UDim2.new(0, 337, 0, 30)
+            TextLabel.Font = Enum.Font.SourceSansBold
+            TextLabel.Text = text
+            TextLabel.TextColor3 = Color3.fromRGB(255, 61, 44)
+            TextLabel.TextSize = 20.000
+        end
+
         --[[function section:NewDropdown(Content, Options, Callback)
             local State = false
             Content = Content or "New Dropdown"
