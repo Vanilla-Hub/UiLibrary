@@ -1,0 +1,379 @@
+for _,v in pairs(game:GetService('CoreGui'):GetDescendants()) do
+	if v.Name == 'Windowed' then
+		v.Parent:Destroy()
+	end
+end
+
+local library = {toggled = true}
+
+local Heartbeat = game:GetService("RunService").Heartbeat;
+local UIS = game:GetService("UserInputService");
+local TweenService = game:GetService("TweenService");
+
+if shared.Cursor then
+	local Old_Cursor = shared.Cursor;
+
+	shared.Cursor = nil;
+	Old_Cursor:Remove();
+end;
+
+if Drawing then
+	local Cursor = Drawing.new("Circle");
+	Cursor.Filled = true;
+	Cursor.Color = Color3.fromRGB(255, 255, 255);
+	Cursor.Transparency = 1;
+	Cursor.Visible = true;
+	Cursor.Radius = 5;
+	Cursor.Thickness = 1;
+	shared.Cursor = Cursor;
+
+	local connection;
+
+	connection = Heartbeat:Connect(function()
+		if not shared.Cursor then
+			connection:disconnect();
+		else
+			shared.Cursor.Position = UIS:GetMouseLocation();
+		end;
+	end);
+end;
+game:GetService('UserInputService').InputBegan:connect(function(key, gpe)
+	--if (not gpe) then
+		if key.KeyCode == Enum.KeyCode.RightShift and library.gui then
+			library.toggled = not library.toggled;
+			library.gui.Enabled = library.toggled;
+			shared.Cursor.Visible = library.toggled;
+		end
+	--end
+end)
+library.WindowCount = 0
+	
+library.gui = Instance.new("ScreenGui")
+library.gui.Name = "Windowed"
+library.gui.Parent = game:GetService("CoreGui")
+library.toggled = true
+
+local container = Instance.new("Frame")
+local UIListLayout = Instance.new("UIListLayout")
+local UIPadding = Instance.new("UIPadding")
+
+container.Name = "container"
+container.Parent = library.gui
+container.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+container.BackgroundTransparency = 1.000
+container.Size = UDim2.new(10, 0, 10, 0)
+
+UIListLayout.Parent = container
+UIListLayout.FillDirection = Enum.FillDirection.Horizontal
+UIListLayout.SortOrder = Enum.SortOrder.LayoutOrder
+UIListLayout.Padding = UDim.new(0, 10)
+
+UIPadding.Parent = container
+UIPadding.PaddingLeft = UDim.new(0, 30)
+UIPadding.PaddingTop = UDim.new(0, 30)
+
+local mouse = game.Players.LocalPlayer:GetMouse()
+
+function library:CreateMain(text, size)
+	
+	size = size or 0
+	
+	local pixelspacing = 35
+	local parts = {}
+	local TopFrame = Instance.new("ImageLabel")
+	local Container = Instance.new("ImageLabel")
+	local UIListLayout = Instance.new("UIListLayout")
+	local UIPadding = Instance.new("UIPadding")
+	local Text = Instance.new("TextLabel")
+	local Line = Instance.new("Frame")
+	
+	local visible = false
+	
+	
+	game:GetService('UserInputService').InputBegan:connect(function(key, gpe)
+		if key.KeyCode == Enum.KeyCode.RightShift and TopFrame.Visible == true then
+			visible = false
+			TopFrame.Visible = false
+		else
+			visible = true
+			TopFrame.Visible = true
+		end
+	end)
+	
+	UIPadding.Parent = Container
+	UIPadding.PaddingTop = UDim.new(0, 15)
+	
+	UIListLayout.Parent = Container
+    UIListLayout.SortOrder = Enum.SortOrder.LayoutOrder
+    UIListLayout.HorizontalAlignment = "Center";
+    UIListLayout.Padding = UDim.new(0, 5);
+	
+	TopFrame.Name = "TopFrame"
+	TopFrame.Parent = container
+	TopFrame.BackgroundColor3 = Color3.fromRGB(25, 25, 25)
+	TopFrame.BackgroundTransparency = 1.000
+	TopFrame.Position = UDim2.new(0.0802092403, 0, 0.122850128, 0)
+	TopFrame.Size = UDim2.new(0, 172, 0, 32)
+	TopFrame.Image = "rbxassetid://3570695787"
+	TopFrame.ImageColor3 = Color3.fromRGB(25, 25, 25)
+	TopFrame.ScaleType = Enum.ScaleType.Slice
+	TopFrame.SliceCenter = Rect.new(100, 100, 100, 100)
+	TopFrame.SliceScale = 0.070
+	TopFrame.Active = true
+	TopFrame.Draggable = true
+	
+	Container.Name = "Container"
+	Container.Parent = TopFrame
+	Container.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
+	Container.BackgroundTransparency = 1.000
+	Container.Position = UDim2.new(0, 0, 1, 0)
+	Container.Size = UDim2.new(0, 172, 0, 2)
+	Container.Image = "rbxassetid://3570695787"
+	Container.ImageColor3 = Color3.fromRGB(30, 30, 30)
+	Container.ScaleType = Enum.ScaleType.Slice
+	Container.SliceCenter = Rect.new(100, 100, 100, 100)
+	Container.SliceScale = 0.070
+	
+	Text.Name = "Text"
+	Text.Parent = TopFrame
+	Text.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+	Text.BackgroundTransparency = 1.000
+	Text.Position = UDim2.new(0.145348847, 0, 0, 0)
+	Text.Size = UDim2.new(0, 122, 0, 39)
+	Text.Font = Enum.Font.SourceSansBold
+	Text.Text = text
+	Text.TextColor3 = Color3.fromRGB(255, 255, 255)
+	Text.TextSize = 20.000
+	
+	Line.Name = "Line"
+	Line.Parent = TopFrame
+	Line.BackgroundColor3 = Color3.fromRGB(25, 25, 25)
+	Line.BorderSizePixel = 0
+	Line.Position = UDim2.new(0, 0, 0.849999905, 0)
+	Line.Size = UDim2.new(0, 172, 0, 12)
+	
+	local other = {}
+	
+	other.Count = self.WindowCount
+	other.Container = Container
+	
+	function other:Resize()
+		local count = 0 
+		for i,v in pairs(Container:GetChildren()) do
+			if not v:IsA('UIListLayout') then
+				count = count + 1
+			end
+		end
+
+		local Size = UDim2.new(0, 172, 0, (count * 35 + size) - 10)
+		Container.Size = Size
+	end
+	
+	function other:ResizeSlider()
+		local count = 0 
+		for i,v in pairs(Container:GetChildren()) do
+			if not v:IsA('UIListLayout') then
+				count = count + 1
+			end
+		end
+
+		local Size = UDim2.new(0, 172, 0, (count * 40 + size) - 15)
+		Container.Size = Size
+	end
+	
+	function other:CreateButton(text, callback)
+		text = text or "New Button"
+		callback = callback or function() end
+		local Button = Instance.new("ImageButton")
+		local ButtonText = Instance.new("TextLabel")
+		
+		Button.Name = "Button"
+		Button.Position = UDim2.new(0.047)
+		Button.Parent = Container
+		Button.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+		Button.BackgroundTransparency = 1.000
+		Button.Size = UDim2.new(0, 155, 0, 30)
+		Button.Image = "rbxassetid://3570695787"
+		Button.ImageColor3 = Color3.fromRGB(25, 25, 25)
+		Button.ScaleType = Enum.ScaleType.Slice
+		Button.SliceCenter = Rect.new(100, 100, 100, 100)
+		Button.SliceScale = 0.050
+		
+		ButtonText.Name = "ButtonText"
+		ButtonText.Parent = Button
+		ButtonText.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+		ButtonText.BackgroundTransparency = 1.000
+		ButtonText.Position = UDim2.new(0.0387096778, 0, 0, 0)
+		ButtonText.Size = UDim2.new(0, 149, 0, 30)
+		ButtonText.Font = Enum.Font.SourceSans
+		ButtonText.Text = text
+		ButtonText.TextColor3 = Color3.fromRGB(255, 255, 255)
+		ButtonText.TextSize = 16.000
+		ButtonText.TextXAlignment = Enum.TextXAlignment.Left
+		
+		Button.MouseButton1Down:Connect(function()
+			pcall(callback)
+		end)
+			
+		self:Resize()
+	end
+	
+	function other:CreateToggle(text, callback)
+		callback = callback or function() end
+        text = text or "New Toggle"
+
+		local Toggle = Instance.new("ImageButton")
+		local ToggleColor = Instance.new("ImageLabel")
+		local ToggleText = Instance.new("TextLabel")
+		
+		Toggle.Name = "Toggle"
+		Toggle.Parent = Container
+		Toggle.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+		Toggle.BackgroundTransparency = 1.000
+		Toggle.Size = UDim2.new(0, 155, 0, 30)
+		Toggle.Image = "rbxassetid://3570695787"
+		Toggle.ImageColor3 = Color3.fromRGB(25, 25, 25)
+		Toggle.ScaleType = Enum.ScaleType.Slice
+		Toggle.SliceCenter = Rect.new(100, 100, 100, 100)
+		Toggle.SliceScale = 0.050
+		
+		ToggleColor.Name = "ToggleColor"
+		ToggleColor.Parent = Toggle
+		ToggleColor.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+		ToggleColor.BackgroundTransparency = 1.000
+		ToggleColor.Position = UDim2.new(0.825806439, 0, 0.159999996, 0)
+		ToggleColor.Size = UDim2.new(0, 20, 0, 20)
+		ToggleColor.Image = "rbxassetid://3570695787"
+		ToggleColor.ImageColor3 = Color3.fromRGB(255, 60, 35)
+		ToggleColor.ScaleType = Enum.ScaleType.Slice
+		ToggleColor.SliceCenter = Rect.new(100, 100, 100, 100)
+		ToggleColor.SliceScale = 0.040
+		
+		ToggleText.Name = "ToggleText"
+		ToggleText.Parent = Toggle
+		ToggleText.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+		ToggleText.BackgroundTransparency = 1.000
+		ToggleText.Position = UDim2.new(0.0387096778, 0, 0, 0)
+		ToggleText.Size = UDim2.new(0, 122, 0, 30)
+		ToggleText.Font = Enum.Font.SourceSans
+		ToggleText.Text = text
+		ToggleText.TextColor3 = Color3.fromRGB(255, 255, 255)
+		ToggleText.TextSize = 15.000
+		ToggleText.TextXAlignment = Enum.TextXAlignment.Left
+		
+		local enabled = false
+
+            Toggle.MouseButton1Click:Connect(function()
+              if enabled then
+              enabled = false 
+              TweenService:Create(ToggleColor, TweenInfo.new(0.2, Enum.EasingStyle.Linear, Enum.EasingDirection.Out), {ImageColor3 = Color3.fromRGB(255, 60, 35)}):Play()
+           else
+              enabled = true
+              TweenService:Create(ToggleColor, TweenInfo.new(0.2, Enum.EasingStyle.Linear, Enum.EasingDirection.Out), {ImageColor3 = Color3.fromRGB(61, 255, 106)}):Play()
+           end
+           pcall(callback, enabled)
+       end)
+		self:Resize()
+	end 	
+	
+	function other:CreateSlider(text, minvalue, maxvalue, callback, data)
+		minvalue = minvalue or 0
+		maxvalue = maxvalue or 0
+        callback = callback or function() end
+        text = text or "New Slider"
+
+		local Slider = Instance.new("ImageButton")
+		local SliderText = Instance.new("TextLabel")
+		local SliderFrame = Instance.new("Frame")
+		local SliderInner = Instance.new("Frame")
+		local SliderValue = Instance.new("TextBox")
+
+		Slider.Name = "Slider"
+		Slider.Parent = Container
+		Slider.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+		Slider.BackgroundTransparency = 1.000
+		Slider.Position = UDim2.new(0.0465116277, 0, 0.47307694, 0)
+		Slider.Size = UDim2.new(0, 155, 0, 35)
+		Slider.Image = "rbxassetid://3570695787"
+		Slider.ImageColor3 = Color3.fromRGB(25, 25, 25)
+		Slider.ScaleType = Enum.ScaleType.Slice
+		Slider.SliceCenter = Rect.new(100, 100, 100, 100)
+		Slider.SliceScale = 0.050
+		
+		SliderText.Name = "SliderText"
+		SliderText.Parent = Slider
+		SliderText.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+		SliderText.BackgroundTransparency = 1.000
+		SliderText.Position = UDim2.new(0.0387096778, 0, 0, 0)
+		SliderText.Size = UDim2.new(0, 118, 0, 21)
+		SliderText.Font = Enum.Font.SourceSans
+		SliderText.Text = "Toggle Example"
+		SliderText.TextColor3 = Color3.fromRGB(255, 255, 255)
+		SliderText.TextSize = 16.000
+		SliderText.TextXAlignment = Enum.TextXAlignment.Left
+		
+		SliderFrame.Name = "SliderFrame"
+		SliderFrame.Parent = Slider
+		SliderFrame.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+		SliderFrame.BorderSizePixel = 0
+		SliderFrame.Position = UDim2.new(0.0322580636, 0, 0.600000024, 0)
+		SliderFrame.Size = UDim2.new(0, 145, 0, 10)
+		
+		SliderInner.Name = "SliderInner"
+		SliderInner.Parent = SliderFrame
+		SliderInner.BackgroundColor3 = Color3.fromRGB(255, 60, 35)
+		SliderInner.BorderSizePixel = 0
+		SliderInner.Size = UDim2.new(0, 0, 0, 10)
+		
+		SliderValue.Name = "SliderValue"
+		SliderValue.Parent = Slider
+		SliderValue.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
+		SliderValue.BorderSizePixel = 0
+		SliderValue.Position = UDim2.new(0.800000012, 0, 0.111904763, 0)
+		SliderValue.Size = UDim2.new(0, 24, 0, 13)
+		SliderValue.Font = Enum.Font.SourceSans
+		SliderValue.Text = ""
+		SliderValue.TextColor3 = Color3.fromRGB(255, 255, 255)
+		SliderValue.TextSize = 14.000
+		SliderValue.FocusLost:Connect(function()
+            pcall(function()
+                SliderValue.Text = math.clamp(tonumber(SliderValue.Text), minvalue, maxvalue)
+                SliderInner.Size = UDim2.new(0, ((tonumber(SliderValue.Text - minvalue) / (maxvalue - minvalue) * math.floor(145))), 0, 10)
+                callback(SliderValue.Text)
+            end)
+        end)
+		
+		self:Resize()
+		
+		local mouse = game.Players.LocalPlayer:GetMouse()
+            local uis = game:GetService("UserInputService")
+            local Value
+            Slider.MouseButton1Down:Connect(function()
+                    Value = math.floor((((tonumber(maxvalue) - tonumber(minvalue)) / 145) * SliderInner.AbsoluteSize.X) + tonumber(minvalue)) or 0
+                    pcall(function()
+                        callback(Value)
+                    end)
+                    SliderInner.Size = UDim2.new(0, math.clamp(mouse.X - SliderInner.AbsolutePosition.X, 0, 145), 0, 10)
+                    moveconnection = mouse.Move:Connect(function()
+                        SliderValue.Text = Value
+                        Value = math.floor((((tonumber(maxvalue) - tonumber(minvalue)) / 145) * SliderInner.AbsoluteSize.X) + tonumber(minvalue))
+                        pcall(function()
+                            callback(Value)
+                        end)
+                        SliderInner.Size = UDim2.new(0, math.clamp(mouse.X - SliderInner.AbsolutePosition.X, 0, 145), 0, 10)
+                    end)
+                    releaseconnection = uis.InputEnded:Connect(function(Mouse)
+                        if Mouse.UserInputType == Enum.UserInputType.MouseButton1 then
+                            Value = math.floor((((tonumber(maxvalue) - tonumber(minvalue)) / 145) * SliderInner.AbsoluteSize.X) + tonumber(minvalue))
+                            pcall(function()
+                                callback(Value)
+                            end)
+                            SliderInner.Size = UDim2.new(0, math.clamp(mouse.X - SliderInner.AbsolutePosition.X, 0, 145), 0, 10)
+                            moveconnection:Disconnect()
+                            releaseconnection:Disconnect()
+                        end
+                    end)
+            	end)
+			end 	
+	return other
+end
